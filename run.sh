@@ -10,6 +10,7 @@ DATA_DIR=$ROOT_DIR/data
 CODE_DIR=$ROOT_DIR/src
 
 nvidia-docker  run   \
+	-p 8888:8888 \
 	-e JUPYTER_TOKEN="acic_bughunters" \
 	-v $DATA_DIR:/data \
 	-v $CODE_DIR:/src \
