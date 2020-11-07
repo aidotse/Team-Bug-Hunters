@@ -59,6 +59,9 @@ def merge_tile_perimage(predicted_tiles):
     arr3 = np.concatenate((X[8:12]), axis=1)
     arr4 = np.concatenate((X[12:]), axis=1)
     a = np.vstack((arr1, arr2, arr3, arr4))
+    plt.imshow(a)
+    plt.show()
+    print(a)
     im=Image.fromarray(a)
     plt.imshow(im)
     #if n ==48:      #when n is equal to total number of arrays then terminate the loop
