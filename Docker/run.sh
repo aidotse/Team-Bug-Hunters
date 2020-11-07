@@ -6,7 +6,7 @@
 # Last Modified By  : Sheetal Reddy <sheetal.reddy@ai.se>
 
 ROOT_DIR=$PWD/..
-DATA_DIR=$ROOT_DIR/data
+DATA_DIR=/mnt/astra_data
 CODE_DIR=$ROOT_DIR/src
 
 nvidia-docker  run   \
