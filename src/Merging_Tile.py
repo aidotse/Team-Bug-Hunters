@@ -1,11 +1,12 @@
+# %%
 
 # coding: utf-8
 
-# In[ ]:
+# %%
 
 
 #Converting the tiles into array
-X=[]
+X_preds=[]
 mip_images_tiles = sorted([os.path.basename(x) for x in glob.glob('/home/gauss/Documents/ACIC/MIP_Images_Tiles/*.tiff')])
 len_mip_images_tiles = len(mip_images_tiles)
 for j in range (len_mip_images_tiles):
@@ -14,11 +15,11 @@ for j in range (len_mip_images_tiles):
     tile = os.path.join(PATH,mip_image_tile)   
     tile_ = Image.open(tile)
     tile_array = np.asarray(tile_)
-    X.append(tile_array)
-len(X)
+    X_preds.append(tile_array)
+len(X_preds) 
 
 
-# In[ ]:
+# %%
 
 
 def merge_tile(predicted_tiles):
@@ -27,7 +28,7 @@ def merge_tile(predicted_tiles):
     2156*2256 and saves them in tiff format for evaluation" 
     """
     file = '/home/gauss/Documents/ACIC/Merged_Tiles/'
-    n = 48    #total number of arrays
+    n = len(X_preds)    #total number of arrays
     while n > n-32:     #n-?=16
         n = n-32
         print(n)
@@ -43,8 +44,31 @@ def merge_tile(predicted_tiles):
         n = n+48        #increasing the value of n to get other set of tiles  
 
 
-# In[ ]:
+# %%
+def merge_tile_perimage(predicted_tiles):
+    """
+    This function merges the predicted tiles back to whole image of dimension
+    2156*2256 and saves them in tiff format for evaluation" 
+    """
+    #file = '/home/gauss/Documents/ACIC/Merged_Tiles/'
+    #n = len(X_preds)    #total number of arrays
+    #while n > n-32:     #n-?=16
+        #n = n-32
+    arr1 = np.concatenate((X[0:4]), axis=1)
+    arr2 = np.concatenate((X[4:8]), axis=1)
+    arr3 = np.concatenate((X[8:12]), axis=1)
+    arr4 = np.concatenate((X[12:]), axis=1)
+    a = np.vstack((arr1, arr2, arr3, arr4))
+    im=Image.fromarray(a)
+    plt.imshow(im)
+    #if n ==48:      #when n is equal to total number of arrays then terminate the loop
+        #break
+    #n = n+48        #increasing t
 
 
-merge_tile(X)   #calling the 'Tile Merging Function'
+# %%
+merge_tile(X_preds)   #calling the 'Tile Merging Function'
 
+
+# %%
+merge_tile_perimage(X_preds)   #calling the 'Tile Merging Function per image'
