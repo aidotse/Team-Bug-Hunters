@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 # Convert values to compatible tf.Example types.
 
@@ -17,55 +18,42 @@ def _int64_feature(value):
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
 # Create the features dictionary.
-def image_example(image, label, dimension):
+def image_example(image, label, dimension1, dimension2):
     feature = {
-        'dimension': _int64_feature(dimension),
-        'label': _int64_feature(label),
+        'dimension1': _int64_feature(dimension1),
+        'dimension2': _int64_feature(dimension2),
+        'label': _bytes_feature(label.tobytes()),
         'image_raw': _bytes_feature(image.tobytes()),
     }
     return tf.train.Example(features=tf.train.Features(feature=feature))
 
-# Write Records to TFRecord File
-record_file = 'mnistTrain.tfrecords'
-n_samples = x_train.shape[0]
-dimension = x_train.shape[1]
-with tf.io.TFRecordWriter(record_file) as writer:
-   for i in range(n_samples):
-      image = x_train[i]
-      label = y_train[i]
-      tf_example = image_example(image, label, dimension)
-      writer.write(tf_example.SerializeToString())
-
-# Create the Dataset
-# Create the dataset object from tfrecord file(s)
-dataset = tf.data.TFRecordDataset(record_file, buffer_size=100)
-
-
 # Decoding function
 def parse_record(record):
     name_to_features = {
-        'dimension': tf.io.FixedLenFeature([], tf.int64),
-        'label': tf.io.FixedLenFeature([], tf.int64),
+        'dimension1': tf.io.FixedLenFeature([], tf.int64),
+        'dimension2': tf.io.FixedLenFeature([], tf.int64),
+        'label': tf.io.FixedLenFeature([], tf.string),
         'image_raw': tf.io.FixedLenFeature([], tf.string),
     }
     return tf.io.parse_single_example(record, name_to_features)
 
 def decode_record(record):
+    #image = tf.io.decode_raw(
+     #   record['image_raw'], out_type=np.uint16, little_endian=True, fixed_length=None, name=None
+    #)
+    #label = tf.io.decode_raw(
+     #   record['label'], out_type=np.uint16, little_endian=True, fixed_length=None, name=None
+    #)
+    
     image = tf.io.decode_raw(
-        record['image_raw'], out_type=dataType, little_endian=True, fixed_length=None, name=None
-    )
-    label = record['label']
-    dimension = record['dimension']
-    image = tf.reshape(image, (dimension, dimension))
+        record['image_raw'], out_type=np.uint16, little_endian=True, name=None)
+    label = tf.io.decode_raw(
+        record['label'], out_type=np.uint16, little_endian=True, name=None)
+
+    dimension1 = record['dimension1']
+    dimension2 = record['dimension2']
+    image = tf.reshape(image, (dimension1, dimension2,1))
+    label = tf.reshape(label, (dimension1, dimension2,1))
     return (image, label)
-
-# Retrieving Records
-
-for record in dataset:
-    parsed_record = parse_record(record)
-    decoded_record = decode_record(parsed_record)
-    image, label = decoded_record
-    print(image.shape, label.shape)
-    break
 
 

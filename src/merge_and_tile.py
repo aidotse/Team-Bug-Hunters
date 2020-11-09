@@ -2,53 +2,43 @@
 This file contains the methods for merging and tiling the images.
 """
 import tensorflow as tf
-import image_slicer
-from image_slicer import join
-import matplotlib.pyplot as plt
-from PIL import Image
 import os
 import numpy as np
+import math
+import matplotlib.pyplot as plt
+import params as params
+from PIL import Image
 
-DATA_PATH = "temp_directory"
 
-def get_tiles_images(image,DATA_PATH):
+@tf.function
+def tiling(img):
     """
-    This function creates tiles from an input image
+    Tile input image with a given tile size
 
-    inputs:
-    image: image filename
-    path:  directory where the folder is located
+    Params:
+        - img : np.ndarray
+            Image to be tiled
 
-    outputs:
-    tiles: image_slicer tiles object containing the image tiles
+    Outputs:
+        - tiles : list of Tensorflow tensors
+            List with tiles
+
     """
-    tiles = image_slicer.slice(os.path.join(DATA_PATH,image), 16, save=False)
+    tiles = []
+
+    for i in range(int(math.ceil(img.shape[0]/(params.tile_size * 1.0)))):
+        for j in range(int(math.ceil(img.shape[1]/(params.tile_size * 1.0)))):
+            cropped_img = img[params.tile_size*i:min(params.tile_size*i+params.tile_size, img.shape[0]), params.tile_size*j:min(params.tile_size*j+params.tile_size, img.shape[1])]
+            tiles.append(tf.cast(cropped_img, tf.uint16))
+
+    tiles = tf.stack(tiles, axis=0)
+
     return tiles
 
 
 
 
-def get_tiles_array(mip_image,DATA_PATH):
-    """
-     This function to get the image tiles in numpy array format
-
-     inputs:
-     image: image filename
-     path:  directory where the folder is located
-
-     outputs:
-     tiles: numpy stack containing the image tiles
-     """
-
-    tiles = get_tiles_images(mip_image,DATA_PATH)
-    tile_list = []
-
-    for tile in tiles:
-        tile_array = np.array(tile.image)
-        tile_list.append(tile_array)
-
-    return tile_list
-
+@tf.function
 def create_tiles_in_tensorflow(input_image):
     """
      This function adapts the "get_tiles_array" method to be used during training on tensorflow
@@ -60,22 +50,23 @@ def create_tiles_in_tensorflow(input_image):
      tiles: numpy stack containing the image tiles
      """
 
-    tf.keras.preprocessing.image.save_img(os.path.join(DATA_PATH,"temp.jpg"), x=input_image[0])
-    tiles = get_tiles_array("temp.jpg", DATA_PATH)
+    tiles = tiling(input_image)
 
     return tiles
 
 
 
-"""
-## Test call
-data_path ='rC:\ Users\bcabg\Documents\Adipocyte Cell Imaging Challenge\CODE-LAB6\pix2pix\images_for_preview\40x images\input'
-mip_images = sorted([os.path.basename(x) for x in glob.glob(r'C:\ Users\bcabg\Documents\Adipocyte Cell Imaging Challenge\CODE-LAB6\pix2pix\images_for_preview\40x images\input\*.tif')])
-for i in range (len(mip_images)):
-    mip_image = mip_images[i]
-    tiles = get_tiles_array(mip_image,data_path)
+def merge_tile_perimage(X):
+    """
+    This function merges the predicted tiles back to whole image of dimension
+    2156*2256 and saves them in tiff format for evaluation"
+    """
 
-    for i in range(len(tiles)):
-        plt.imshow(tiles[i])
-        plt.show()
-"""
+    arr1 = np.concatenate((X[0:4]), axis=1)
+    arr2 = np.concatenate((X[4:8]), axis=1)
+    arr3 = np.concatenate((X[8:12]), axis=1)
+    arr4 = np.concatenate((X[12:]), axis=1)
+    a = np.vstack((arr1, arr2, arr3, arr4))
+
+
+    return tf.expand_dims(a,axis=0)
