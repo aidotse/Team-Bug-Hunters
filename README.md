@@ -16,7 +16,7 @@ IMPORTANT:
 
 The code examines all the .tif files under the input folder, checks the magnification each file belongs to, and sorts all the .tif filepaths for magnification (getting only brightfield images with the tags A04 and C04). The image stack files are recognized by the beginning of the filename up to A04. When all files from the same magnification and stack are identified, the MIPs are obtained, being down-sampledto a size of 2048x2048. Then, the MIPs are tiled with 512x512 size and inputted tothe models. All images from the same magnification are processed at once, havingto load only the models that work with that magnification. The predictions are then generated and saved in a different subfolder for each magnification as uint16 datatype.
 
-From the function description in the script (more detailed):
+From the function description in the script (test_TeamBugHunters.py) (more detailed):
 
     File testing: read the test dataset with brightfield images to output the correspondent fluorescent predictions. The 
         code is fit to run the following folder structure:
