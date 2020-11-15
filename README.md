@@ -18,34 +18,34 @@ The code examines all the .tif files under the input folder, checks the magnific
 
 From the function description in the script (more detailed):
 
-File testing: read the test dataset with brightfield images to output the correspondent fluorescent predictions. The 
-    code is fit to run the following folder structure:
-        - Parent folder:
-            - Magnification type 1 (20x_images)
-                - Set of brightfield images, separated into different Z slices
-            - Magnification type 2 (40x_images)
-                ...
-                        
-            And so on
-            
-    The model files used in the prediction SHOULD BE LOCATED IN THE SAME FOLDER AS THIS CODE
-            
-    The corresponding predictions will be saved in a folder that can be inputted by the user. If no output directory is 
-    inputted by the user, the folder with the predictions will be created in the same directory as this code with the
-    name "predictions_TeamBugHunters". The structure of the output folder will be the same as the structure of the input folder, 
-    but with the prediction files (output filenames will be "AssayPlate_Greiner_#655090_xxx_TxxxFxxxLxxA0cZ01C0c.tif",
-    with "_xxx_TxxxFxxxLxx" given by each set of Z stack and "c" given by the fluorescence channel that is analyzed)
-    
-            
-    Params:
-        - path : str
-            Name of input test folder
-        - out : str (optional)
-            Name of output folder with results
-            
-    Outputs:
-        void
-        Saved prediction files as .tiff format in the output folder
+    File testing: read the test dataset with brightfield images to output the correspondent fluorescent predictions. The 
+        code is fit to run the following folder structure:
+            - Parent folder:
+                - Magnification type 1 (20x_images)
+                    - Set of brightfield images, separated into different Z slices
+                - Magnification type 2 (40x_images)
+                    ...
+
+                And so on
+
+        The model files used in the prediction SHOULD BE LOCATED IN THE SAME FOLDER AS THIS CODE
+
+        The corresponding predictions will be saved in a folder that can be inputted by the user. If no output directory is 
+        inputted by the user, the folder with the predictions will be created in the same directory as this code with the
+        name "predictions_TeamBugHunters". The structure of the output folder will be the same as the structure of the input folder, 
+        but with the prediction files (output filenames will be "AssayPlate_Greiner_#655090_xxx_TxxxFxxxLxxA0cZ01C0c.tif",
+        with "_xxx_TxxxFxxxLxx" given by each set of Z stack and "c" given by the fluorescence channel that is analyzed)
+
+
+        Params:
+            - path : str
+                Name of input test folder
+            - out : str (optional)
+                Name of output folder with results
+
+        Outputs:
+            void
+            Saved prediction files as .tiff format in the output folder
 
 
 - preprocessing.py: The file consist of cropping definition which is designed to cropthe input images and targets in a square shape of 2048x2048. Additionally, codeto access the dataset is written which takes the brightfield images and performsthe MIPs. Further the MIPs and the corresponding fluorescent images are saved instructured folders.
