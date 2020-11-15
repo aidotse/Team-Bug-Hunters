@@ -26,7 +26,6 @@ def crop_center(img,cropx,cropy):
     starty = y//2-(cropy//2)    
     return img[starty:starty+cropy,startx:startx+cropx]
 
-
 def imageCropping(img,s):
     """
     Central image cropping
@@ -54,7 +53,6 @@ def imageCropping(img,s):
         img_crop = np.copy(img)
         
     return img_crop
-
 
 def parallelAccess(path, size, out, proj = "max"):
     """
@@ -253,4 +251,3 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv[1:])    
-
