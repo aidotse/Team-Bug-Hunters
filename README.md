@@ -6,7 +6,7 @@ The provided code for the hackathon is composed by the following files. To train
 
 - test_TeamBugHunters.py (FOR RUNNING THE TEST DATASET): this function performs the inference of our processfrom a given input folder. The library getopt was used to allow the user to inputa folder where images for testing are located. Optionally, the user can provide anoutput folder name for saving the images there. 
 
-The input to be provided in the terminal for test_TeamBugHunters.py is:
+The input to be provided in the terminal for test_TeamBugHunters.py in the folder where the code is located is:
 
     python3 test_TeamBugHunters.py -i input_folder -o output_folder
 
