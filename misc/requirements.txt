@@ -13,5 +13,4 @@ pillow
 albumentations
 multiprocess
 image-slicer
-PIL
-glob
+glob3
