@@ -4,9 +4,9 @@ The provided code for the hackathon is composed by the following files. To train
 
 - main.py: To train the network from scratch, only this script needs to be exe-cuted which calls all the definitions and gives the prediction on the merged tiles.The trained model is saved in hdf5 format for each channel and magnification level and the checkpoints are also saved in the script.  If the user wants to train the network from saved checkpoints then the saved models should be located in a direc-tory named astraining_checkpoints, and the checkpoint should have a name of theformat:checkpoint_attUNet{magnification number}_fluor{number of fluorescencechannel}
 
-- test_TeamBugHunters.py (FOR RUNNNING THE TEST DATASET): this function performs the inference of our processfrom a given input folder. The library getopt was used to allow the user to inputa folder where images for testing are located. Optionally, the user can provide anoutput folder name for saving the images there. 
+- test_TeamBugHunters.py (FOR RUNNING THE TEST DATASET): this function performs the inference of our processfrom a given input folder. The library getopt was used to allow the user to inputa folder where images for testing are located. Optionally, the user can provide anoutput folder name for saving the images there. 
 
-The input to be provided in the terminal is:
+The input to be provided in the terminal for test_TeamBugHunters.py is:
 
 python3 test_TeamBugHunters.py -i input_folder -o output_folder.
 
