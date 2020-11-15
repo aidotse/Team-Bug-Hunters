@@ -6,4 +6,4 @@
 # Last Modified By  : Sheetal Reddy <sheetal.reddy@ai.se>
 
 
-docker build -f Dockerfile -t bug_hunters_docker_image  ..
+docker build -f Dockerfile -t bug_hunters_docker_image_tf2  ..

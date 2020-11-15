@@ -14,8 +14,6 @@ nvidia-docker  run   \
 	-e JUPYTER_TOKEN="acic_bughunters" \
 	-v $DATA_DIR:/data \
 	-v $CODE_DIR:/src \
-	-it bug_hunters_docker_image \
+	-it bug_hunters_docker_image_tf2 \
 	bash 
-
-
 
