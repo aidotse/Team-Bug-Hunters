@@ -8,7 +8,7 @@ The provided code for the hackathon is composed by the following files. To train
 
 The input to be provided in the terminal for test_TeamBugHunters.py is:
 
-    python3 test_TeamBugHunters.py -i input_folder -o output_folder.
+    python3 test_TeamBugHunters.py -i input_folder -o output_folder
 
 IMPORTANT:
 1) The code should be in the same folder as utils.py,params.py, and merge_and_tile.py. 
