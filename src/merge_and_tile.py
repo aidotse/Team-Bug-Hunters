@@ -62,11 +62,24 @@ def merge_tile_perimage(X):
     2156*2256 and saves them in tiff format for evaluation"
     """
 
+    # For 512,512
     arr1 = np.concatenate((X[0:4]), axis=1)
     arr2 = np.concatenate((X[4:8]), axis=1)
     arr3 = np.concatenate((X[8:12]), axis=1)
     arr4 = np.concatenate((X[12:]), axis=1)
     a = np.vstack((arr1, arr2, arr3, arr4))
-
+    
+    # For 256,256
+    """
+    arrs = []
+    for n,i in enumerate(range(8)):
+        if i < 7:
+            arr = np.concatenate((X[i*8: (i + 1)*8]), axis = 1) 
+        else:
+            arr = np.concatenate((X[i*8:]), axis = 1)
+        arrs.append(arr)
+    a = np.vstack(tuple(arrs))
+    """
+ 
 
     return tf.expand_dims(a,axis=0)
